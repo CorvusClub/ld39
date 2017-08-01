@@ -2,11 +2,33 @@
 <html>
   <head>
     <meta content-type="utf8" />
+    <title>Vampire Appliance</title>
   </head>
   <body>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        width: 100vw;
+        height: 100vh;
+        
+        margin: 0;
+        padding: 0;
+      }
+      #display {
+        background: black;
+      }
+    </style>
+    <canvas id="display" width=640 height=640></canvas>
+    <script>
+      var d = document.getElementById("display");
+      d.width = window.innerWidth;
+      d.height = window.innerHeight;
+    </script>
     <link rel="stylesheet" href="./index.css"></link>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.min.js"></script>
     <script src="./index.js"></script>
-    hello world
   </body>
 </html>

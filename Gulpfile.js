@@ -1,6 +1,11 @@
 const gulp = require('gulp');
 const newer = require('gulp-newer');
-const babel = require('gulp-babel');
+
+const sourcemaps = require('gulp-sourcemaps');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
+const babel = require('babelify');
 
 const del = require('del');
 
@@ -14,15 +19,20 @@ const range = require('postcss-input-range');
 
 const JS_GLOB = "./src/**/*.js";
 function buildJS() {
-  return gulp.src(JS_GLOB)
-    .pipe(newer(build_dir))
-    .pipe(babel({
+  return browserify('./src/index.js', {debug: true})
+    .transform(babel.configure({
       presets: [['env', {
         "targets": {
           "browsers": ["last 2 versions", "safari >= 7", "iOS >= 7"],
         },
       }]]
     }))
+    .bundle()
+    .on('error', function(err) { console.error(err.message); this.emit('end'); })
+    .pipe(source('index.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(build_dir));
 }
 

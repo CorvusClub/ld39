@@ -1,3 +1,7 @@
 body {
   background-color: cornflowerblue;
 }
+
+#display {
+  image-rendering: -moz-crisp-edges;
+}
